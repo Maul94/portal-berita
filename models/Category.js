@@ -2,7 +2,7 @@ const pool = require('../config/database');
 
 const Category = {
   async findAll() {
-    const [rows] = await pool.execute(`
+    const [rows] = await pool.query(`
       SELECT c.*, COUNT(a.id) as article_count
       FROM categories c
       LEFT JOIN articles a ON c.id = a.category_id AND a.status = 'published'
@@ -14,7 +14,7 @@ const Category = {
   },
 
   async findAllAdmin() {
-    const [rows] = await pool.execute(`
+    const [rows] = await pool.query(`
       SELECT c.*, COUNT(a.id) as article_count
       FROM categories c
       LEFT JOIN articles a ON c.id = a.category_id
