@@ -1,0 +1,26 @@
+{
+  "name": "portal-berita",
+  "version": "1.0.0",
+  "description": "Portal Berita Nasional Modern dengan CMS Admin",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "ejs": "^3.1.9",
+    "mysql2": "^3.6.5",
+    "bcryptjs": "^2.4.3",
+    "express-session": "^1.17.3",
+    "connect-flash": "^0.1.1",
+    "multer": "^1.4.5-lts.1",
+    "dotenv": "^16.3.1",
+    "slugify": "^1.6.6",
+    "express-validator": "^7.0.1",
+    "method-override": "^3.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

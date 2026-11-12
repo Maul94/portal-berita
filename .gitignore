@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment variables
+.env
+
+# Uploads (ignore uploaded images but keep directory)
+public/uploads/*
+!public/uploads/.gitkeep
+
+# Logs & temp
+*.log
+.DS_Store
+Thumbs.db

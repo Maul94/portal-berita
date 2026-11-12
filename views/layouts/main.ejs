@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <meta name="description" content="<%= typeof metaDesc !== 'undefined' ? metaDesc : 'Portal Berita Nasional - Terkini, Terpercaya, Mendalam' %>">
+  
+  <!-- Tailwind CSS Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: { primary: { DEFAULT: '#E63946', dark: '#C1121F' } },
+          fontFamily: { sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-sans antialiased">
+  
+  <!-- Reading Progress Bar -->
+  <div id="reading-progress" class="fixed top-0 left-0 h-0.5 bg-gradient-to-r from-red-600 to-orange-400 z-50 transition-all duration-100" style="width:0%"></div>
+
+  <!-- Header & Navbar -->
+  <%- include('../partials/header') %>
+  
+  <!-- Breaking News Ticker -->
+  <%- include('../partials/breaking-news') %>
+  
+  <!-- Main Content -->
+  <main>
+    <%- body %>
+  </main>
+  
+  <!-- Footer -->
+  <%- include('../partials/footer') %>
+  
+  <script src="/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<header class="bg-white border-b border-slate-100 px-6 py-4 flex items-center justify-between sticky top-0 z-30">
+  <div class="flex items-center gap-4">
+    <!-- Mobile menu toggle -->
+    <button class="lg:hidden p-2 rounded-lg text-slate-500 hover:bg-slate-100" id="admin-mobile-menu-btn" onclick="openMobileSidebar()">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+    <div>
+      <h1 class="text-lg font-bold text-slate-900"><%= typeof pageTitle !== 'undefined' ? pageTitle : 'Dashboard' %></h1>
+      <p class="text-xs text-slate-400">Portal Berita Admin CMS</p>
+    </div>
+  </div>
+  <div class="flex items-center gap-3">
+    <a href="/admin/articles/create" class="hidden sm:inline-flex items-center gap-2 bg-red-600 text-white text-sm font-semibold px-4 py-2 rounded-xl hover:bg-red-700 transition-colors shadow-sm">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+      Buat Berita
+    </a>
+    <% if (user) { %>
+    <div class="w-8 h-8 bg-gradient-to-br from-red-500 to-orange-400 rounded-full flex items-center justify-center text-white font-bold text-sm cursor-pointer" title="<%= user.name %>">
+      <%= user.name ? user.name[0].toUpperCase() : 'A' %>
+    </div>
+    <% } %>
+  </div>
+</header>

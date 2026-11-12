@@ -1,0 +1,108 @@
+<!-- Top Date Bar -->
+<div class="bg-slate-900 text-slate-300 text-xs py-1.5 px-4 hidden md:block">
+  <div class="max-w-7xl mx-auto flex justify-between items-center">
+    <span id="current-date">Kamis, 12 November 2026</span>
+    <div class="flex gap-4">
+      <a href="#" class="hover:text-white transition-colors">Tentang Kami</a>
+      <a href="#" class="hover:text-white transition-colors">Redaksi</a>
+      <a href="#" class="hover:text-white transition-colors">Iklan</a>
+      <a href="#" class="hover:text-white transition-colors">Kontak</a>
+    </div>
+  </div>
+</div>
+
+<!-- Main Navbar -->
+<nav class="bg-white dark:bg-slate-900 shadow-sm sticky top-0 z-40 border-b border-slate-100 dark:border-slate-800">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex items-center justify-between h-16 gap-4">
+      
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-2 flex-shrink-0">
+        <div class="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
+          <span class="text-white font-bold text-sm">PB</span>
+        </div>
+        <span class="font-extrabold text-xl text-slate-900 dark:text-white tracking-tight hidden sm:block">
+          Portal<span class="text-red-600">Berita</span>
+        </span>
+      </a>
+      
+      <!-- Search Bar (center) -->
+      <form action="/cari" method="GET" class="flex-1 max-w-xl hidden md:block">
+        <div class="relative">
+          <input type="text" name="q" placeholder="Cari berita terkini..."
+            class="w-full pl-4 pr-10 py-2 bg-slate-100 dark:bg-slate-800 rounded-full text-sm border border-transparent focus:border-red-400 focus:bg-white dark:focus:bg-slate-700 focus:outline-none transition-all"
+            value="<%= typeof q !== 'undefined' ? q : '' %>">
+          <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-red-600">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </button>
+        </div>
+      </form>
+      
+      <!-- Right Controls -->
+      <div class="flex items-center gap-2">
+        <!-- Dark Mode Toggle -->
+        <button id="dark-mode-toggle" class="p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="Toggle dark mode">
+          <svg class="w-5 h-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+          <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        </button>
+        
+        <!-- Mobile Search Toggle -->
+        <button class="md:hidden p-2 rounded-lg text-slate-500 hover:bg-slate-100" id="mobile-search-btn">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </button>
+        
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-500 hover:bg-slate-100">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Mobile Search (hidden by default) -->
+    <div id="mobile-search" class="hidden pb-3 md:hidden">
+      <form action="/cari" method="GET">
+        <input type="text" name="q" placeholder="Cari berita..." class="w-full px-4 py-2 bg-slate-100 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-red-400">
+      </form>
+    </div>
+  </div>
+  
+  <!-- Category Bar -->
+  <div class="border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900">
+    <div class="max-w-7xl mx-auto px-4">
+      <nav class="flex gap-1 overflow-x-auto category-bar py-1" aria-label="Kategori Berita">
+        <a href="/" class="flex-shrink-0 px-3 py-2 text-sm font-semibold rounded-md <%= currentPath === '/' ? 'text-red-600 bg-red-50 dark:bg-red-950' : 'text-slate-600 dark:text-slate-300 hover:text-red-600 hover:bg-slate-50 dark:hover:bg-slate-800' %> transition-colors whitespace-nowrap">
+          🔥 Terkini
+        </a>
+        <% if (typeof categories !== 'undefined') { categories.forEach(cat => { %>
+        <a href="/kategori/<%= cat.slug %>" class="flex-shrink-0 px-3 py-2 text-sm font-medium rounded-md <%= currentPath === '/kategori/' + cat.slug ? 'text-red-600 bg-red-50 dark:bg-red-950' : 'text-slate-600 dark:text-slate-300 hover:text-red-600 hover:bg-slate-50 dark:hover:bg-slate-800' %> transition-colors whitespace-nowrap">
+          <%= cat.name %>
+        </a>
+        <% }) } %>
+      </nav>
+    </div>
+  </div>
+  
+  <!-- Mobile Menu Dropdown -->
+  <div id="mobile-menu" class="hidden border-t border-slate-100 bg-white dark:bg-slate-900 md:hidden">
+    <div class="px-4 py-3 space-y-1">
+      <a href="/" class="block px-3 py-2 rounded-lg text-slate-700 dark:text-slate-300 font-semibold hover:bg-red-50 hover:text-red-600">🔥 Terkini</a>
+      <% if (typeof categories !== 'undefined') { categories.forEach(cat => { %>
+      <a href="/kategori/<%= cat.slug %>" class="block px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-red-50 hover:text-red-600 transition-colors"><%= cat.name %></a>
+      <% }) } %>
+    </div>
+  </div>
+</nav>
+
+<script>
+document.getElementById('mobile-search-btn')?.addEventListener('click', () => {
+  document.getElementById('mobile-search')?.classList.toggle('hidden');
+});
+// Set current date
+const dateEl = document.getElementById('current-date');
+if (dateEl) {
+  const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const months = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  const now = new Date();
+  dateEl.textContent = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+}
+</script>
