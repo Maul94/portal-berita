@@ -56,7 +56,7 @@ const Article = {
   },
 
   async findHeadline() {
-    const [rows] = await pool.execute(`
+    const [rows] = await pool.query(`
       SELECT a.*, c.name as category_name, c.slug as category_slug, u.name as author_name
       FROM articles a
       LEFT JOIN categories c ON a.category_id = c.id
@@ -66,7 +66,7 @@ const Article = {
     `);
     if (rows[0]) return rows[0];
     // fallback: latest published
-    const [fallback] = await pool.execute(`
+    const [fallback] = await pool.query(`
       SELECT a.*, c.name as category_name, c.slug as category_slug, u.name as author_name
       FROM articles a
       LEFT JOIN categories c ON a.category_id = c.id
@@ -78,19 +78,21 @@ const Article = {
   },
 
   async findTrending(limit = 5) {
-    const [rows] = await pool.execute(`
+    const num = parseInt(limit) || 5;
+    const [rows] = await pool.query(`
       SELECT a.id, a.title, a.slug, a.views_count, a.published_at,
              c.name as category_name, c.slug as category_slug
       FROM articles a
       LEFT JOIN categories c ON a.category_id = c.id
       WHERE a.status = 'published'
-      ORDER BY a.views_count DESC LIMIT ?
-    `, [limit]);
+      ORDER BY a.views_count DESC LIMIT ${num}
+    `);
     return rows;
   },
 
   async findLatest(limit = 12) {
-    const [rows] = await pool.execute(`
+    const num = parseInt(limit) || 12;
+    const [rows] = await pool.query(`
       SELECT a.id, a.title, a.slug, a.excerpt, a.thumbnail_url, a.views_count,
              a.published_at, a.reading_time_minutes,
              c.name as category_name, c.slug as category_slug, u.name as author_name
@@ -98,8 +100,8 @@ const Article = {
       LEFT JOIN categories c ON a.category_id = c.id
       LEFT JOIN users u ON a.author_id = u.id
       WHERE a.status = 'published'
-      ORDER BY a.published_at DESC LIMIT ?
-    `, [limit]);
+      ORDER BY a.published_at DESC LIMIT ${num}
+    `);
     return rows;
   },
 

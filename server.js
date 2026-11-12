@@ -23,6 +23,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// Request logging middleware
+app.use((req, res, next) => {
+  const start = Date.now();
+  console.log(`➡️  [${new Date().toLocaleTimeString('id-ID')}] ${req.method} ${req.originalUrl}`);
+  res.on('finish', () => {
+    console.log(`⬅️  [${new Date().toLocaleTimeString('id-ID')}] ${req.method} ${req.originalUrl} -> ${res.statusCode} (${Date.now() - start}ms)`);
+  });
+  next();
+});
+
 // Method override for PUT/DELETE forms
 app.use(methodOverride('_method'));
 

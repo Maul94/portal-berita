@@ -4,20 +4,33 @@ const Tag = require('../models/Tag');
 const { timeAgo, formatDate } = require('../utils/helpers');
 
 exports.homepage = async (req, res) => {
+  console.log('📌 [HOMEPAGE] Request diterima, mengambil data dari DB...');
   try {
-    const [headline, trending, latest, categories] = await Promise.all([
-      Article.findHeadline(),
-      Article.findTrending(5),
-      Article.findLatest(12),
-      Category.findAll()
-    ]);
+    console.log('📌 [HOMEPAGE] Query 1: findHeadline...');
+    const headline = await Article.findHeadline();
+    console.log('📌 [HOMEPAGE] Headline selesai:', headline ? headline.title.substring(0, 30) + '...' : 'null');
+
+    console.log('📌 [HOMEPAGE] Query 2: findTrending...');
+    const trending = await Article.findTrending(5);
+    console.log('📌 [HOMEPAGE] Trending selesai, jumlah:', trending.length);
+
+    console.log('📌 [HOMEPAGE] Query 3: findLatest...');
+    const latest = await Article.findLatest(12);
+    console.log('📌 [HOMEPAGE] Latest selesai, jumlah:', latest.length);
+
+    console.log('📌 [HOMEPAGE] Query 4: Category.findAll...');
+    const categories = await Category.findAll();
+    console.log('📌 [HOMEPAGE] Categories selesai, jumlah:', categories.length);
+
+    console.log('📌 [HOMEPAGE] Melakukan rendering public/index.ejs...');
     res.render('public/index', {
       title: 'Beranda - Portal Berita Nasional',
       headline, trending, latest, categories, timeAgo, formatDate
     });
+    console.log('📌 [HOMEPAGE] Rendering selesai dikirim ke browser!');
   } catch (err) {
-    console.error(err);
-    res.status(500).render('public/error', { title: 'Error', code: 500, message: 'Terjadi kesalahan server.' });
+    console.error('❌ [HOMEPAGE ERROR]:', err);
+    res.status(500).render('public/error', { title: 'Error', code: 500, message: 'Terjadi kesalahan server: ' + err.message });
   }
 };
 
